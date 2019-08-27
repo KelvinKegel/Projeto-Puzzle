@@ -11,6 +11,10 @@ public class Platform : MonoBehaviour
 
     Player player;
 
+    bool isInside;
+
+    public Vector3 lastPos, deltaPos;
+
     [SerializeField]
     private Transform rotationCenter;
 
@@ -29,9 +33,11 @@ public class Platform : MonoBehaviour
     {
         rotationPosition = rotationCenter.position;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        lastPos = transform.position;
     }
 
     // Update is called once per frame
+
     private void Update()
     {
         switch (movementType_)
@@ -50,14 +56,28 @@ public class Platform : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (isInside)
+        {
+            player.GetComponent<CharacterController>().Move(deltaPos);
+        }
+    }
+
     private void circularMovement()
     {
         float posX, posY = 0f;
 
         posX = rotationPosition.x + Mathf.Cos(angle) * rotationRadius;
         posY = rotationPosition.y + Mathf.Sin(angle) * rotationRadius;
+        deltaPos = new Vector3(posX, posY, transform.position.z) - lastPos;
+
         transform.position = new Vector3(posX, posY, transform.position.z);
         angle += Time.deltaTime * angularSpeed;
+
+        
+
+        lastPos = transform.position;
 
         if (angle >= 360f)
             angle = 0f;
@@ -70,19 +90,22 @@ public class Platform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("chabdcbs");
-        if (collision.gameObject.CompareTag("Player"))
+        print(collision.gameObject.name);
+        if (collision.gameObject == player.gameObject)
         {
-            print("chabdcbs");
-            player.transform.parent = transform;
+            //player.transform.parent = transform.parent;
+            player.gravity = 0;
+            isInside = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject == player.gameObject)
+        {
+            //player.transform.parent = null;
+            player.gravity = -12;
+            isInside = false;
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            player.transform.parent = null;
-        }
-    }
 }
