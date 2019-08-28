@@ -31,7 +31,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     CharacterController charController;
 
-
+    [SerializeField]
+    bool isOnPlat = false;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         walkingRotating();
         //walkSideways();
@@ -114,9 +115,9 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            gravity = -12f;
 
-
-            if (charController.isGrounded)
+            if (charController.isGrounded || isOnPlat)
             {
 
 
@@ -128,4 +129,21 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlatformAttach>())
+        {
+            isOnPlat = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlatformAttach>())
+        {
+            isOnPlat = false;
+        }
+    }
+
 }

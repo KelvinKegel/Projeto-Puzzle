@@ -54,14 +54,16 @@ public class Platform : MonoBehaviour
                 circularMovement();
                 break;
         }
-    }
 
-    private void LateUpdate()
-    {
         if (isInside)
         {
             player.GetComponent<CharacterController>().Move(deltaPos);
         }
+    }
+
+    private void LateUpdate()
+    {
+
     }
 
     private void circularMovement()

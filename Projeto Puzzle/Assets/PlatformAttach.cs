@@ -11,20 +11,26 @@ public class PlatformAttach : MonoBehaviour
     bool isInside;
 
 
-
+    private void LateUpdate()
+    {
+        if (isInside)
+        {
+            player.GetComponent<CharacterController>().Move(platform.deltaPos);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == player.gameObject)
         {
-            print("asdfadf");
+            
             //player.transform.parent = transform.parent;
-            //player.gravity = 0;
+            player.gravity = -1;
             isInside = true;
         }
     }
     void OnTriggerExit(Collider other)
     {
-        print("sai");
+        
         if (other.gameObject == player.gameObject)
         {
             //player.transform.parent = null;
