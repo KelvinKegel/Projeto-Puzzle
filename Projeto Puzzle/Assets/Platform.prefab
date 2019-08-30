@@ -105,9 +105,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb4119dea6aba645af52c1d09609a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPos: {x: 0, y: 0, z: 0}
+  deltaPos: {x: 0, y: 0, z: 0}
   rotationCenter: {fileID: 178453670135261688}
   rotationRadius: 4
-  angularSpeed: 2
+  angularSpeed: 4
   movementType_: 0
 --- !u!1 &178453670135261689
 GameObject:
