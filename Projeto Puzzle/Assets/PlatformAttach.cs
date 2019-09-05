@@ -24,7 +24,7 @@ public class PlatformAttach : MonoBehaviour
         {
             
             //player.transform.parent = transform.parent;
-            player.gravity = -1;
+            player.gravity = -0;
             isInside = true;
         }
     }
